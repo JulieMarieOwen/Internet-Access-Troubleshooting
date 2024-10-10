@@ -2,20 +2,28 @@
 
 <h2>Description</h2>
 A user had the following issue:<br>
-Hope you're all good. I've got a bit of a snag with my computer – the internet's playing hard to get. When I try to open my browser, it's just giving me a blank page like it's on a break or something.
-I've checked the Wi-Fi, and it seems fine, but my computer's not on the same page, if you catch my drift. This has been going on for a while, and it's starting to cramp my style at work. Not really a tech whiz, so I'm not sure if it's a router hiccup or a computer glitch.
-If you could give it a look and help me get back online, that would be awesome. I've got work to do, and the internet's kind of essential for that. Appreciate the assist!
+I need to use Skype for a meeting. I powered my computer on and launched Skype, but it just hangs there with that spinning thing spinning forever. Or, it will say “Unable to sign in, please check your internet connection”. It never did this before. Please help.
 
 <h2>Troubleshooting Process</h2>
 
-- <b>Theory 1: Network Configuration issue: Ran the ipconfig command in the command line interface; Ipv4 and Default Gateway were correct</b>
+I confirmed what the user reported and also checked the internet browser to confirm there is no internet connection to this computer.
 
-- <b>Theory 2: Tested Network Connectivity: Pinged default gateway in command line interface and 4 packets were sent and received with 0 loss; pinged the IP address for Google.com (8.8.8.8), and 4 packets were sent and received with 0 loss; pinged domain name google.com and “ping request could not find host google.com. I checked the preferred DNS servers and changed them to 8.8.8.8. and 8.8.4.4 for Google. The internet then started working.</b>
+- <b>Theory 1: There is an internet connection issue.
+both verified an internet connection issue. I went into Device Manager and looked at the network adapter – it said that the device was working properly.
+I right-clicked on the adapter in device manager and checked the driver and it appears that the best driver for the device is already installed.
+When I attempted to access Settings > Network and Internet, the window crashed (I tried multiple times)
+I opened the Command Prompt as the administrator and ran sfc/ scannow. This did not fix the crashing issue.
+I went into Command Line interface as admin and ran “ipconfig”. I saw that the IP address is an APIPA address (169.254.191.253)
+When I attempted to release the IP address via Command Line, I received the message “An error occurred while releasing interface Ethernet: The RPC server is unavailable.”
+I went to Windows Key > Run and typed in “services.msc” and I checked the DHCP client – it was not running.
+I then went back to using the command line as administrator and used the command “ipconfig /release” and “ipconfig /renew” and this time it renewed the IP address.
+I then check to make sure that the browser and Skype were connecting to the internet. Everything appeared to be working as expected.
+I went back to Settings > Network and Internet, and the window no longer crashed.</b>
 
 <h2>Resolution</h2>
 
-- <b> Resolution (Internal): The issue was due to a non-functional DNS server setting. I changed the preferred DNS servers to 8.8.8.8. and 8.8.4.4 which then resolved the issue. By changing the preferred DNS server to a reliable one, the computer was then able to resolve domain names correctly which then restored the internet connection.
-- <b> Resolution (Client-Facing): The computer wasn’t able to connect to the internet because it wasn’t able to locate websites by their names (ex. Google.com). I fixed the service that allows your computer to look up websites by their name and now your internet is up and working!
+- <b> Resolution (Internal): The DHCP client was not turning on; once I set this to run automatically and started the service, I was then able to release the current APIPA IP address and get a new one. Once that was done, the internet connection was back up and running and the user could then login to Skype.
+- <b> Resolution (Client-Facing): There was a setting on your computer that needed to be turned on so that it would then have an address to access the network, internet, and log into Skype. I have turned it on, so you should be all set!
 
 <h2>Environments Used </h2>
 

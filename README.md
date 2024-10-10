@@ -8,7 +8,7 @@ I need to use Skype for a meeting. I powered my computer on and launched Skype, 
 
 I confirmed what the user reported and also checked the internet browser to confirm there is no internet connection to this computer.
 
-- <b>Theory 1: There is an internet connection issue.
+- <b>Theory 1: There is an internet connection issue:
 I logged in on the computer as admin so I would have access to everything needed.
 I first pinged google.com as well as 8.8.8.8 – both verified an internet connection issue. I went into Device Manager and looked at the network adapter – it said that the device was working properly.
 I right-clicked on the adapter in device manager and checked the driver and it appears that the best driver for the device is already installed.
